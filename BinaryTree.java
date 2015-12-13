@@ -144,4 +144,32 @@ public class BinaryTree<E>
 		return (left.isFull()) && (right().isFull()) && (right.height() == left.height());
 	}
 	
+	public boolean isComplete()
+	{
+		if(isLeaf())
+			return true;
+		if((left == null) && (right != null))
+			return false;
+		if((left != null) && (right != null))
+			return (left().isComplete()) && (right().isComplete());
+		if(left != null)
+			return left().isComplete();
+		if(right != null)
+			return right().isComplete();
+		throw new Error("fatal error");
+	}
+	
+	public boolean isBalanced()
+	{
+		if(isLeaf()) 
+			return true;
+		if((left != null) && (right == null) && (left.height() <= 1))
+			return true;
+		if((right != null) && (left == null) && (right.height() <= 1))
+			return true;
+		if((left != null) && (right != null) && (Math.abs(right.height() - left.height()) <= 1))
+			return (left.isBalanced()) && (right.isBalanced());
+		return false;
+	}
+	
 }
