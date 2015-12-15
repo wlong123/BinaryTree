@@ -76,6 +76,7 @@ public class BinaryTree<E>
 	}
 /**
 	//public Iterator<E> preorderIterator()
+		return new preorderIterator(this);
 		//root
 		//left
 		//right
@@ -96,29 +97,14 @@ public class BinaryTree<E>
 		String s = "";
 		if(value == null)
 			return "";
-		if((left != null) && (right != null))
-		{
-			if(s.contains(value.toString()))
-				s += "\n" + left().value() + "  " + right().value() + left.toString() + right.toString();
-			else
-			{
-				s += value.toString() + "\n" + left().value() + "  " + right().value() + left.toString() + right.toString();
-			}
-		}
+		if(isLeaf())
+			s += value.toString();
+		else if((left != null) && (right != null))
+				s += value.toString() + "(" + left.toString() + "," + right.toString() + ")";
 		else if(left != null)
-			if(s.contains(value.toString()))
-				s += "\n" + left().value() + left.toString();
-			else
-			{
-				s += value.toString() + "\n" + left().value() + left.toString();
-			}
+				s += value.toString() + "(" + left.toString() + ")";
 		else if(right != null)
-			if(s.contains(value.toString()))
-				s += "\n" + right().value() + right.toString();
-			else
-			{
-				s += value.toString() + "\n" + right().value() + right.toString();
-			}
+				s += value.toString() + "(" + right.toString() + ")";
 		return s;
 	}
 
@@ -148,24 +134,24 @@ public class BinaryTree<E>
 	{
 		if(isLeaf())
 			return true;
-		if((left == null) && (right != null))
+		if(left == null)
 			return false;
-		if((left != null) && (right != null))
-			return (left().isComplete()) && (right().isComplete());
-		if(left != null)
-			return left().isComplete();
-		if(right != null)
-			return right().isComplete();
-		throw new Error("fatal error");
+		if((right == null) && (left.isLeaf()))
+			return true;
+		if((left != null) && (right != null) && (left.height() - right.height() == 1))
+			return (left.isComplete()) && (right.isFull());
+		if((left != null) && (right != null) && (left.height() == right.height()))
+			return (left.isFull()) && (right.isComplete());
+		return false;
 	}
 	
 	public boolean isBalanced()
 	{
 		if(isLeaf()) 
 			return true;
-		if((left != null) && (right == null) && (left.height() <= 1))
+		if((left != null) && (right == null) && (height() <= 1))
 			return true;
-		if((right != null) && (left == null) && (right.height() <= 1))
+		if((right != null) && (left == null) && (height() <= 1))
 			return true;
 		if((left != null) && (right != null) && (Math.abs(right.height() - left.height()) <= 1))
 			return (left.isBalanced()) && (right.isBalanced());
