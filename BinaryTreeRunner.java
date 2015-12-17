@@ -20,7 +20,7 @@ public class BinaryTreeRunner
 		System.out.println(tree1.height());
 		System.out.println(tree1.isFull());
 		System.out.println(tree1.left().isFull());
-		//System.out.println(tree1.left().right().isFull());
+		System.out.println(tree1.left().right().isFull());
 		System.out.println(tree1.isComplete());
 		tree1.right().setRight(new BinaryTree<Integer>(6));
 		System.out.println(tree1.isComplete());
@@ -30,6 +30,10 @@ public class BinaryTreeRunner
 		System.out.println(tree1.isBalanced());
 		System.out.println(tree1.toString());
 		System.out.println(tree1.isComplete());
-		System.out.println(tree1.isBalanced());
+		//System.out.println(tree1.isBalanced());
+		for(int x: tree1)
+		{
+			System.out.println(x);
+		}
 	}
 }
