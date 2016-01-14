@@ -2,6 +2,7 @@ public class BinaryTreeRunner
 {
 	public static void main(String [] args)
 	{
+		/**
 		BinaryTree<Integer> tree1 = new BinaryTree<Integer>(5);
 		tree1.setLeft(new BinaryTree<Integer>(4));
 		tree1.setRight(new BinaryTree<Integer>(3));
@@ -15,7 +16,7 @@ public class BinaryTreeRunner
 		2  1  7  6 
 	   /
 	  0*/ 
-	  
+	  /*
 		System.out.println(tree1.size());
 		System.out.println(tree1.height());
 		System.out.println(tree1.isFull());
@@ -35,5 +36,13 @@ public class BinaryTreeRunner
 		{
 			System.out.println(x);
 		}
+		*/
+		BST<Integer> tree = new BST<Integer>();
+		tree.add(1);
+		tree.add(2);
+		tree.add(0);
+		tree.add(3);
+		System.out.println(tree);
+		System.out.println(tree.find(2));
 	}
 }
