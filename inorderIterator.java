@@ -14,7 +14,7 @@ public class inorderIterator<E> implements Iterator<E>
 	constructor that takes in a binary tree
 	@param head binary tree that is going to be iterated through
 	*/
-	public inorderIterator(BinaryTree<E> head)
+	public inorderIterator(IntervalTree<E> head)
 	{
 		values = new LinkedList<E>();
 		populateQueue(head);
@@ -24,7 +24,7 @@ public class inorderIterator<E> implements Iterator<E>
 	populates the queue with the values in the iteration
 	@param tree tree that is going to be iterated through
 	*/
-	public void populateQueue(BinaryTree<E> tree)
+	public void populateQueue(IntervalTree<E> tree)
 	{
 		if(tree.isLeaf())  //adds the value if it is a leaf
 			values.offer(tree.value());
