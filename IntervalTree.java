@@ -117,15 +117,6 @@ public class IntervalTree<E extends Comparable<E>>
 	}
 	
 	/**
-	modifier for the field maxValue
-	@param val new value for the field maxValue
-	*/
-	public void setMaxValue(E val)
-	{
-		maxValue = val;
-	}
-	
-	/**
 	returns whether the tree doesn't have any branches
 	@return boolean returns true if the tree doesn't have any branches, false if not
 	*/
@@ -292,6 +283,29 @@ public class IntervalTree<E extends Comparable<E>>
 			maxValue = left.maxValue();
 		if((right != null) && (right.maxValue().compareTo(maxValue) > 0))
 			maxValue = right.maxValue();
+	}
+	
+	public IntervalTree<E> overLappingIntervalSearch(Object[] inter)
+	{
+	
+		if(interval == null)
+			return null;
+		//checks interval of root for overlaps
+		if((interval[0] <= inter[1]) && (inter[0] <= interval[1]))
+			return interval();
+		//checks left child for overlapping intervals
+		if((left != null) && (left.interval()[1] >= inter[0]))
+			return left.overLappingIntervalSearch(inter);
+		//checks right child for overlapping intervals
+		else if(right != null) && (right.interval()[1] >= inter[0]))
+		{
+			return right.overLappingIntervalSearch(inter);
+		}
+		//returns null if there are no overlapping intervals
+		else
+		{
+			return null;
+		}
 	}
 	
 
