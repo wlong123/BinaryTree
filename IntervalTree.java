@@ -1,14 +1,11 @@
 import java.util.Iterator;
 /**
-	Binary Tree Class
-	@version 12/18/15
+	Interval Tree Class
+	@version 10/1/16
 	@author Will Long
 */
 public class IntervalTree<E extends Comparable<E>>
-//implements Iterable<E>, Comparable<E>
 {
-	/**value of max value of that section of the binary tree*/
-	protected E maxValue;
 	
 	/**interval of that node. contains two numbers*/
 	protected Object[] interval;
@@ -20,25 +17,23 @@ public class IntervalTree<E extends Comparable<E>>
 	protected IntervalTree<E> right;
 	
 	/**
-	constructor that takes in a value and two binary trees
-	@param v item that is going to be the root of the tree
+	constructor that takes in a value and two interval trees
+	@param i array that is going to be the interval of the tree
 	@param l binary tree that is going to be set to left
 	@param r binary tree that is going to be set to right
 	*/
 	public IntervalTree(Object[] i, IntervalTree<E> l, IntervalTree<E> r)
 	{
-	//throw exception if i is not length 2 and if i is not an interval
 		interval = new Object[2];
 		interval[0] = i[0];
 		interval[1] = i[1];
 		left = l;
 		right = r;
-		setMaxValue();
 	}
 	
 	/**
 	constructor that only takes in an interval
-	@param v item that is going to be the root of the tree
+	@param i array that is going to be the interval of the tree
 	*/
 	public IntervalTree(Object[] i)
 	{
@@ -46,7 +41,8 @@ public class IntervalTree<E extends Comparable<E>>
 		interval = new Object[2];
 		interval[0] = i[0];
 		interval[1] = i[1];
-		setMaxValue();
+		left = null;
+		right = null;
 	}
 	
 	/**
@@ -54,7 +50,6 @@ public class IntervalTree<E extends Comparable<E>>
 	*/
 	public IntervalTree()
 	{
-		maxValue = null;
 		interval = null;
 		left = null;
 		right = null;
@@ -62,7 +57,7 @@ public class IntervalTree<E extends Comparable<E>>
 	
 	/**
 	accessor for the field left
-	@return BinaryTree<E> tree to the left of the root
+	@return IntervalTree<E> tree to the left of the root
 	*/
 	public IntervalTree<E> left()
 	{
@@ -71,7 +66,7 @@ public class IntervalTree<E extends Comparable<E>>
 	
 	/**
 	accessor for the field right
-	@return BinaryTree<E> tree to the right of the root
+	@return IntervalTree<E> tree to the right of the root
 	*/
 	public IntervalTree<E> right()
 	{
@@ -79,21 +74,22 @@ public class IntervalTree<E extends Comparable<E>>
 	}
 	
 	/**
-	accessor for the field value
-	@return E value of the root
-	*/
-	public E maxValue()
-	{
-		return maxValue;
-	}
-	
-	/**
 	accessor for interval
-	@return E[] the interval of the node
+	@return Object[] the interval of the node
 	*/
 	public Object[] interval()
 	{
 		return interval;
+	}
+	
+	/**
+	modifier for the field interval
+	@param i array containing the new interval
+	*/
+	public void setInterval(Object[] i)
+	{
+		interval[0] = i[0];
+		interval[1] = i[1];
 	}
 	
 	/**
@@ -103,7 +99,6 @@ public class IntervalTree<E extends Comparable<E>>
 	public void setLeft(IntervalTree<E> node)
 	{
 		left = node;
-		setMaxValue();
 	}
 	
 	/**
@@ -113,7 +108,6 @@ public class IntervalTree<E extends Comparable<E>>
 	public void setRight(IntervalTree<E> node)
 	{
 		right = node;
-		setMaxValue();
 	}
 	
 	/**
@@ -128,7 +122,7 @@ public class IntervalTree<E extends Comparable<E>>
 	}
 	
 	/**
-	returns the size of the binary tree
+	returns the size of the interval tree
 	@return int the size of the tree
 	*/
 	public int size()
@@ -145,48 +139,8 @@ public class IntervalTree<E extends Comparable<E>>
 	}
 	
 	/**
-	returns a preorder iterator for the binary tree
-	@return Iterator<E> preorder iterator for binary tree
-	*/
-	/*
-	public Iterator<E> preorderIterator()
-	{
-		return new preorderIterator<E>(this);
-	}
-	*/
-	/**
-	returns an inorder iterator for the binary tree
-	@return Iterator<E> inorder iterator for binary tree
-	*/
-	/*
-	public Iterator<E> inorderIterator()
-	{
-		return new inorderIterator<E>(this);	
-	}
-	*/
-	/**
-	returns a postorder iterator for the binary tree
-	@return Iterator<E> postorder iterator for binary tree
-	*/
-	/*
-	public Iterator<E> postorderIterator()
-	{
-		return new postorderIterator<E>(this);	
-	}
-	*/
-	/**
-	returns an iterator for the binary tree
-	@return Iterator<E> iterator for binary tree
-	*/
-	/*
-	public Iterator<E> iterator()
-	{
-		return new inorderIterator<E>(this);
-	}
-	*/
-	/**
-	returns string representation of the binary tree
-	@return String string representation of the binary tree
+	returns string representation of the interval tree
+	@return String string representation of the interval tree
 	*/
 	public String toString()
 	{
@@ -194,18 +148,18 @@ public class IntervalTree<E extends Comparable<E>>
 		if(interval == null)
 			return "";
 		if(isLeaf())
-			s += "(" + interval[0] + ", " + interval[1] + ")";
+			s += "[" + interval[0] + ", " + interval[1] + "]";
 		else if((left != null) && (right != null)) //has a left and a right branch
-				s += interval[0].toString() + ", " + interval[1].toString() + "(" + left.toString() + "," + right.toString() + ")";
+				s += "[" + interval[0].toString() + ", " + interval[1].toString() + "]" + "(" + left.toString() + "," + right.toString() + ")";
 		else if(left != null)
-				s += interval[0].toString() + ", " + interval[1].toString() + "(" + left.toString() + ")";
+				s += "[" + interval[0].toString() + ", " + interval[1].toString() + "]" + "," + "(" + left.toString() + ")";
 		else if(right != null)
 				s += interval[0].toString() + ", " + interval[1].toString() + "(" + right.toString() + ")";
 		return s;
 	}
 
 	/**
-	returns the height of the binary tree
+	returns the height of the interval tree
 	@return int size of the tree
 	*/
 	public int height()
@@ -270,43 +224,46 @@ public class IntervalTree<E extends Comparable<E>>
 			return (left.isBalanced()) && (right.isBalanced());
 		return false;
 	}
-	
-	/**
-	returns the max value in the interval tree
-	@return int the max value in the interval tree
-	*/
+	/*
+
 	public void setMaxValue()
 	{
 		if(isLeaf())
 			maxValue = (E) interval[1];
-		if((left != null) && (left.maxValue().compareTo(maxValue) > 0))
+		if((left() != null) && (left.maxValue().compareTo(maxValue) > 0))
 			maxValue = left.maxValue();
-		if((right != null) && (right.maxValue().compareTo(maxValue) > 0))
+		if((right() != null) && (right.maxValue().compareTo(maxValue) > 0))
 			maxValue = right.maxValue();
 	}
-	
-	public IntervalTree<E> overLappingIntervalSearch(Object[] inter)
+	*
+	/*
+	public Object[][] overLappingIntervalSearch(Object[] inter)
 	{
+		Object[][] output = new Object[][2];
 	
 		if(interval == null)
 			return null;
 		//checks interval of root for overlaps
-		if((interval[0] <= inter[1]) && (inter[0] <= interval[1]))
-			return interval();
+		if((interval[0].compareTo(inter[1]) <= 0) && (inter[0].compareTo(interval[1]) <= 0))
+			output[0] = interval();
 		//checks left child for overlapping intervals
-		if((left != null) && (left.interval()[1] >= inter[0]))
+		if((left != null) && (left.interval()[1].compareTo(inter[0]) <= 0))
 			return left.overLappingIntervalSearch(inter);
 		//checks right child for overlapping intervals
-		else if(right != null) && (right.interval()[1] >= inter[0]))
+		else if((right != null) && (right.interval()[1].compareTo(inter[0]) <= 0))
 		{
 			return right.overLappingIntervalSearch(inter);
 		}
-		//returns null if there are no overlapping intervals
 		else
 		{
-			return null;
+			return output
 		}
 	}
-	
 
+	
+	public int compare(int i, Object obj)
+	{
+		return this.compareTo(obj);
+	}
+   */
 }
